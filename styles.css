@@ -14,7 +14,7 @@ body {
 .navbar {
   width: 100%;
   background: #ffffff;
-  padding: 20px 40px;
+  padding: 15px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,19 +23,30 @@ body {
   top: 0;
   left: 0;
   z-index: 1000;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   box-sizing: border-box;
-  flex-wrap: wrap;
 }
 
 .navbar h1 {
   color: #1a1a1a;
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
+/* Remove or comment out this section since we're using the img tag */
+/*.navbar h1::before {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-image: url('src/Unisabana.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}*/
 
 .nav-links {
   display: flex;
@@ -68,6 +79,20 @@ body {
   width: 100%;
 }
 
+/* Navbar logo styles */
+.logo-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-right: 10px;
+}
+
 /* --- CONTENEDOR DEL LIBRO --- */
 #flipbook {
 visibility: hidden;
@@ -86,10 +111,33 @@ border-radius: 12px !important;
 
 /* --- CONTROLES DE NAVEGACIÓN --- */
 .controls {
-margin-top: 20px;
-display: flex;
-gap: 20px;
-justify-content: center;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 15px 25px;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav-btn {
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  background: #38bdf8;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-btn:hover {
+  background: #0284c7;
 }
 
 /* Botones de navegación */
@@ -335,6 +383,67 @@ footer p {
   opacity: 0.8;
 }
 
+/* Footer styles */
+.site-footer {
+    background: #f8f9fa;
+    padding: 40px 0 20px;
+    margin-top: 60px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.footer-section h3 {
+    color: #1a1a1a;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.footer-section p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+    color: #38bdf8;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #0284c7;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.footer-bottom p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
 /* --- FLIPBOOK CONTAINER --- */
 #flipbook-container {
   display: flex;
@@ -346,12 +455,58 @@ footer p {
   box-sizing: border-box;
 }
 
+/* Reader container styles */
+.reader-container {
+  margin-top: 80px;
+  padding: 20px;
+  min-height: calc(100vh - 80px);
+}
+
 /* Media Queries */
 @media screen and (max-width: 768px) {
   .navbar {
-      flex-direction: column;
-      text-align: center;
+      padding: 10px 20px;
+  }
+
+  .navbar h1::before {
+      width: 30px;
+      height: 30px;
+  }
+
+  .reader-container {
+      margin-top: 60px;
       padding: 10px;
+  }
+
+  #flipbook-container {
+      padding: 0;
+  }
+
+  #flipbook {
+      margin: 0 auto !important;
+      transform: none !important;
+  }
+
+  .controls {
+      bottom: 10px;
+      padding: 10px 15px;
+      width: 90%;
+      max-width: 400px;
+      justify-content: center;
+  }
+
+  .nav-btn {
+      padding: 8px 15px;
+      font-size: 14px;
+  }
+
+  .page-indicator {
+      font-size: 14px;
+  }
+
+  .zoom-controls {
+      right: 10px;
+      bottom: 80px;
   }
 
   .nav-links {
@@ -365,27 +520,23 @@ footer p {
       padding: 8px;
   }
 
-  #flipbook-container {
-      padding: 10px;
-  }
-
-  #flipbook {
-      transform: scale(0.8);
-      transform-origin: top center;
-  }
-
-  .controls {
-      flex-direction: column;
-      gap: 10px;
-  }
-
-  .controls button {
-      width: 100%;
-      max-width: 200px;
-  }
-
   main {
       margin-top: 120px;
+  }
+
+  .footer-content {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      padding: 0 15px;
+  }
+
+  .footer-section {
+      text-align: center;
+  }
+
+  .site-footer {
+      margin-top: 40px;
+      padding: 30px 0 15px;
   }
 }
 

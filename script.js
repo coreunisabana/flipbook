@@ -28,6 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Detectar si es móvil
+    const isMobile = window.innerWidth <= 768;
+
     pdfjsLib.getDocument("src/documento.pdf").promise.then(function (pdf) {
         pdfDoc = pdf;
         loadPages();
@@ -41,7 +44,15 @@ document.addEventListener("DOMContentLoaded", function () {
             pdfDoc.getPage(i).then(function (page) {
                 let canvas = document.createElement("canvas");
                 let context = canvas.getContext("2d");
-                let viewport = page.getViewport({ scale: 1 }); 
+                let viewport = page.getViewport({ scale: isMobile ? 0.8 : 1 }); 
+
+                // Ajustar viewport para móvil
+                if (isMobile) {
+                    const containerWidth = document.getElementById('flipbook-container').offsetWidth - 40;
+                    const scale = containerWidth / viewport.width;
+                    viewport = page.getViewport({ scale });
+                }
+
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
     
@@ -59,16 +70,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         $(overlay).fadeOut(500, function() {
                             overlay.remove();
                             // Agregar páginas al flipbook
-                            pageElements.forEach(function(element) {
-                                flipbook.append(element);
-                            });
+                            flipbook.append(...pageElements);
 
-                            // Inicializar flipbook con animaciones
+                            // Configuración diferente para móvil y escritorio
                             flipbook.turn({
-                                width: viewport.width * 2,
+                                width: isMobile ? viewport.width : viewport.width * 2,
                                 height: viewport.height,
                                 autoCenter: true,
-                                display: 'double',
+                                display: isMobile ? 'single' : 'double',
                                 acceleration: true,
                                 gradients: true,
                                 elevation: 50,

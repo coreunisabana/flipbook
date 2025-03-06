@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0, user-scalable=yes">
     <title>Visor de Documentos - CORE</title>
     
     <!-- Enlace a estilos externos -->
@@ -15,7 +15,12 @@
 </head>
 <body class="reader-mode">
     <div class="navbar">
-        <h1>CORE</h1>
+        <h1>
+            <a href="https://www.unisabana.edu.co" target="_blank" class="logo-link">
+                <img src="src/Unisabana.png" alt="Logo Unisabana" class="navbar-logo">
+            </a>
+            CORE
+        </h1>
         <div class="nav-links">
             <a href="index.html">Inicio</a>
             <a href="#">De qué trata</a>
@@ -27,11 +32,6 @@
         <div id="flipbook-container">
             <div id="flipbook"></div>
         </div>
-        
-        <div class="zoom-controls">
-            <button class="zoom-btn" id="zoomIn" aria-label="Aumentar zoom">+</button>
-            <button class="zoom-btn" id="zoomOut" aria-label="Reducir zoom">-</button>
-        </div>
 
         <div class="controls">
             <button id="prevPage" class="nav-btn">← Anterior</button>
@@ -39,6 +39,31 @@
             <button id="nextPage" class="nav-btn">Siguiente →</button>
         </div>
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sobre el Proyecto</h3>
+                <p>Este Flipbook interactivo es una herramienta diseñada para los estudiantes de CORE V, permitiéndoles revivir y repasar las historias inspiradoras que conocieron durante CORE I. Una manera dinámica de mantener viva la esencia de estas narrativas transformadoras.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Útiles</h3>
+                <ul>
+                    <li><a href="https://www.unisabana.edu.co/core" target="_blank">Programa CORE</a></li>
+                    <li><a href="https://www.unisabana.edu.co" target="_blank">Universidad de La Sabana</a></li>
+                    <li><a href="index.html">Volver al Catálogo</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Créditos</h3>
+                <p>Desarrollado con 💙 por Esteban</p>
+                <p>Proyecto CORE - Universidad de La Sabana</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CORE - Universidad de La Sabana</p>
+        </div>
+    </footer>
 
     <!-- Script externo -->
     <script src="script.js"></script>
