@@ -1,11 +1,11 @@
 /* --- ESTILO GENERAL --- */
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  font-family: 'Poppins', sans-serif;
+  background: #ffffff;
+  font-family: 'Inter', 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  color: white;
+  color: #333;
   display: flex;
   flex-direction: column;
 }
@@ -13,12 +13,12 @@ body {
 /* --- NAVBAR --- */
 .navbar {
   width: 100%;
-  background: rgba(30, 41, 59, 0.95);
-  padding: 15px 20px;
+  background: #ffffff;
+  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   position: fixed;
   top: 0;
   left: 0;
@@ -30,11 +30,11 @@ body {
 }
 
 .navbar h1 {
-font-size: 24px;
-font-weight: 600;
-margin: 0;
-color: #fff;
-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #1a1a1a;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .nav-links {
@@ -43,18 +43,29 @@ text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .nav-links a {
-  color: white;
+  color: #555;
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
   transition: 0.3s;
   padding: 5px 10px;
   border-radius: 4px;
+  position: relative;
 }
 
-.nav-links a:hover {
-  color: #38bdf8;
-  background: rgba(255, 255, 255, 0.1);
+.nav-links a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #38bdf8;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover:after {
+  width: 100%;
 }
 
 /* --- CONTENEDOR DEL LIBRO --- */
@@ -188,11 +199,24 @@ to {
 }
 
 .main-title {
-  color: white;
+  color: #1a1a1a;
   font-size: 2.5rem;
-  margin-bottom: 3rem;
+  font-weight: 700;
   text-align: center;
-  font-weight: 600;
+  margin: 60px 0 20px;
+  position: relative;
+}
+
+.main-title:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #38bdf8;
+  border-radius: 2px;
 }
 
 /* --- MAIN CONTENT --- */
@@ -204,95 +228,110 @@ main {
   box-sizing: border-box;
 }
 
+/* Book Cards Styling */
 .book-cards {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .book-card {
-  width: 60vw;
-  max-width: 800px;
-  min-width: 300px;
-  height: 200px;
-  position: relative;
-  border-radius: 15px;
-  overflow: hidden;
-  cursor: pointer;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.5s ease forwards;
-  animation-delay: calc(var(--order) * 0.2s);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 420px;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: calc(var(--order) * 0.1s);
 }
 
 .book-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .card-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://www.alianzaeditorial.es/imagenes/libros/grande/9788491041900-yo-soy-malala.jpg');
-  background-size: cover;
-  background-position: center;
-  filter: blur(5px) brightness(0.7);
-  transition: transform 0.3s ease;
+    height: 75%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
 }
 
 .book-card:hover .card-bg {
-  transform: scale(1.1);
+    transform: scale(1.05);
 }
 
-.book-card h3 {
-  position: relative;
-  z-index: 1;
-  color: white;
-  text-align: center;
-  padding: 30px;
-  margin: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-  font-weight: 600;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.2rem;
+    background: white;
+    height: 25%;
+}
+
+.card-content h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    line-height: 1.4;
+}
+
+.author {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+.book-tag {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #38bdf8;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes fadeInUp {
-  from {
-      opacity: 0;
-      transform: translateY(20px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* --- FOOTER --- */
 footer {
   width: 100%;
   padding: 20px;
-  background: rgba(30, 41, 59, 0.95);
+  background: #f8f9fa;
   text-align: center;
   box-shadow: 0px -4px 15px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  margin-top: auto;
 }
 
 footer p {
   margin: 0;
   font-size: 14px;
-  color: #fff;
+  color: #666;
   opacity: 0.8;
 }
 

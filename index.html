@@ -10,6 +10,7 @@
     
     <!-- Librerías necesarias -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="navbar">
@@ -21,27 +22,51 @@
         </div>
     </div>
     <main>
-        <h2 class="main-title">¿Qué libro leíste?</h2>
+        <h2 class="main-title">Historias que Inspiran</h2>
         <div class="book-cards">
             <div class="book-card" onclick="location.href='libro.html'" style="--order: 1">
-                <div class="card-bg"></div>
-                <h3>Yo soy Malala</h3>
+                <div class="card-bg" style="background-image: url('src/malala.webp')"></div>
+                <div class="card-content">
+                    <h3>Malala. Mi historia</h3>
+                    <p class="author">Malala Yousafzai</p>
+                    <span class="book-tag">Biografía</span>
+                </div>
             </div>
+            
             <div class="book-card" onclick="location.href='libro.html'" style="--order: 2">
-                <div class="card-bg"></div>
-                <h3>Vivir para correr</h3>
+                <div class="card-bg" style="background-image: url('src/correrparavivir.webp')"></div>
+                <div class="card-content">
+                    <h3>Correr para vivir</h3>
+                    <p class="author">López Lomong</p>
+                    <span class="book-tag">Superación</span>
+                </div>
             </div>
+
             <div class="book-card" onclick="location.href='libro.html'" style="--order: 3">
-                <div class="card-bg"></div>
-                <h3>La memoria de un árbol</h3>
+                <div class="card-bg" style="background-image: url('src/memoriadeunarbol.webp')"></div>
+                <div class="card-content">
+                    <h3>Memoria de un árbol</h3>
+                    <p class="author">Manuel Rivas</p>
+                    <span class="book-tag">Literatura</span>
+                </div>
             </div>
+
             <div class="book-card" onclick="location.href='libro.html'" style="--order: 4">
-                <div class="card-bg"></div>
-                <h3>Una tarta de manzana</h3>
+                <div class="card-bg" style="background-image: url('src/blancacomolanieve.webp')"></div>
+                <div class="card-content">
+                    <h3>Blanca como la nieve, roja como la sangre</h3>
+                    <p class="author">Alessandro D'Avenia</p>
+                    <span class="book-tag">Novela</span>
+                </div>
             </div>
+
             <div class="book-card" onclick="location.href='libro.html'" style="--order: 5">
-                <div class="card-bg"></div>
-                <h3>Blanca como la nieve, roja como la sangre</h3>
+                <div class="card-bg" style="background-image: url('src/unatartademanzana.webp')"></div>
+                <div class="card-content">
+                    <h3>Una tarta de manzana llena de esperanza</h3>
+                    <p class="author">Sarah Moore Fitzgerald</p>
+                    <span class="book-tag">Juvenil</span>
+                </div>
             </div>
         </div>
     </main>
