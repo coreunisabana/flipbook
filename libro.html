@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Visor de Documentos - CORE</title>
+    
+    <!-- Enlace a estilos externos -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Librerías necesarias -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="turn.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Visor de Documentos CORE</h1>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="#">De qué trata</a>
+            <a href="#">Nosotros</a>
+        </div>
+    </div>
+    
+    <main>
+        <div id="flipbook-container">
+            <div id="flipbook"></div>
+        </div>
+        
+        <footer>
+            <div class="controls">
+                <button id="prevPage">← Anterior</button>
+                <button id="nextPage">Siguiente →</button>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Script externo -->
+    <script src="script.js"></script>
+</body>
+</html>
