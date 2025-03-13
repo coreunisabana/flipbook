@@ -47,23 +47,53 @@ document.addEventListener("DOMContentLoaded", function () {
             pdfDoc.getPage(i).then(function (page) {
                 let canvas = document.createElement("canvas");
                 let context = canvas.getContext("2d");
-                let viewport = page.getViewport({ scale: isMobile ? 0.8 : 1 }); 
+                
+                // Obtener el pixel ratio del dispositivo para mejor resolución
+                const pixelRatio = window.devicePixelRatio || 1;
+                
+                // Definir escalas base más pequeñas
+                const baseScale = 0.65; // Reducida para escritorio
+                const mobileScale = 0.35; // Reducida significativamente para móvil
+                
+                let viewport = page.getViewport({ scale: isMobile ? mobileScale : baseScale }); 
 
                 // Ajustar viewport para móvil
                 if (isMobile) {
-                    const containerWidth = document.getElementById('flipbook-container').offsetWidth - 40;
-                    const scale = containerWidth / viewport.width;
+                    const containerWidth = Math.min(
+                        document.getElementById('flipbook-container').offsetWidth - 20,
+                        window.innerWidth - 20
+                    );
+                    const scale = (containerWidth / viewport.width) * mobileScale;
                     viewport = page.getViewport({ scale });
                 }
 
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
+                // Ajustar tamaño del canvas considerando el pixel ratio
+                canvas.width = viewport.width * pixelRatio;
+                canvas.height = viewport.height * pixelRatio;
+                
+                // Establecer el tamaño de visualización del canvas
+                canvas.style.width = viewport.width + "px";
+                canvas.style.height = viewport.height + "px";
+
+                // Escalar el contexto para mayor resolución
+                context.scale(pixelRatio, pixelRatio);
     
-                let renderContext = { canvasContext: context, viewport: viewport };
+                let renderContext = { 
+                    canvasContext: context, 
+                    viewport: viewport,
+                    enableWebGL: true // Habilitar WebGL para mejor rendimiento si está disponible
+                };
+
                 page.render(renderContext).promise.then(function () {
                     let div = document.createElement("div");
                     div.classList.add("page");
                     div.appendChild(canvas);
+                    
+                    // Asegurar que el div contenedor no exceda el viewport
+                    if (isMobile) {
+                        div.style.maxWidth = '100vw';
+                        div.style.maxHeight = '100vh';
+                    }
                     
                     pageElements[i-1] = div;
                     pagesLoaded++;
