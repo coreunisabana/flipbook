@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     let pdfDoc = null;
-    let totalPages = 23;
+    let totalPages = 0;
     let flipbook = $("#flipbook");
 
     // Crear overlay y loader
@@ -33,7 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     pdfjsLib.getDocument("src/documento.pdf").promise.then(function (pdf) {
         pdfDoc = pdf;
+        totalPages = pdf.numPages;
         loadPages();
+    }).catch(function(error) {
+        console.error("Error loading PDF:", error);
     });
 
     function loadPages() {
