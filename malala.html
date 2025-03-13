@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Visor de Documentos - CORE</title>
+    <title>Yo soy Malala - CORE</title>
     
     <!-- Enlace a estilos externos -->
     <link rel="stylesheet" href="styles.css">
@@ -12,6 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="turn.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- Cargar el navbar -->
+    <script src="nav-loader.js"></script>
     <style>
         body {
             margin: 0;
@@ -53,20 +55,6 @@
     </style>
 </head>
 <body class="reader-mode">
-    <div class="navbar">
-        <h1>
-            <a href="https://www.unisabana.edu.co" target="_blank" class="logo-link">
-                <img src="src/Unisabana.png" alt="Logo Unisabana" class="navbar-logo">
-            </a>
-            CORE
-        </h1>
-        <div class="nav-links">
-            <a href="index.html">Inicio</a>
-            <a href="#">De qué trata</a>
-            <a href="#">Nosotros</a>
-        </div>
-    </div>
-    
     <main class="reader-container">
         <div id="flipbook-container">
             <div id="flipbook"></div>
@@ -104,7 +92,10 @@
         </div>
     </footer>
 
-    <!-- Script externo -->
+    <script>
+        // Configurar la ruta del PDF específico para este libro
+        const pdfPath = 'libros/soymalala.pdf';
+    </script>
     <script src="script.js"></script>
 </body>
-</html>
+</html> 

@@ -11,20 +11,111 @@
     <!-- Librerías necesarias -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Cargar el navbar -->
+    <script src="nav-loader.js"></script>
+    <style>
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: none;
+        }
+
+        .hamburger:focus,
+        .hamburger:active,
+        .hamburger:hover {
+            outline: none;
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+
+        .hamburger span {
+            width: 2rem;
+            height: 0.25rem;
+            background: #333;
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+            box-shadow: none;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+                position: relative;
+                z-index: 1000;
+                background: none;
+                box-shadow: none;
+            }
+
+            .nav-links {
+                position: fixed;
+                right: -100%;
+                top: 0;
+                height: 100vh;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                flex-direction: column;
+                padding-top: 5rem;
+                transition: 0.3s ease-in-out;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                margin: 1.5rem 0;
+                font-size: 1.2rem;
+                text-align: center;
+                -webkit-tap-highlight-color: transparent;
+                color: #000;
+                text-decoration: none;
+                transition: color 0.3s ease;
+                font-weight: 500;
+                padding: 0.5rem 2rem;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links a:hover {
+                color: #0056b3;
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+            .hamburger.active span:first-child {
+                transform: rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg);
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar">
-        <h1>CORE</h1>
-        <div class="nav-links">
-            <a href="index.html">Inicio</a>
-            <a href="#">De qué trata</a>
-            <a href="#">Nosotros</a>
-        </div>
-    </div>
     <main>
         <h2 class="main-title">Historias que Inspiran</h2>
         <div class="book-cards">
-            <div class="book-card" onclick="location.href='libro.html'" style="--order: 1">
+            <div class="book-card" onclick="location.href='malala.html'" style="--order: 1">
                 <div class="card-bg" style="background-image: url('src/malala.webp')"></div>
                 <div class="card-content">
                     <h3>Malala. Mi historia</h3>
@@ -33,7 +124,7 @@
                 </div>
             </div>
             
-            <div class="book-card" onclick="location.href='libro.html'" style="--order: 2">
+            <div class="book-card" onclick="location.href='correrparavivir.html'" style="--order: 2">
                 <div class="card-bg" style="background-image: url('src/correrparavivir.webp')"></div>
                 <div class="card-content">
                     <h3>Correr para vivir</h3>
@@ -42,7 +133,7 @@
                 </div>
             </div>
 
-            <div class="book-card" onclick="location.href='libro.html'" style="--order: 3">
+            <div class="book-card" onclick="location.href='memoriadeunarbol.html'" style="--order: 3">
                 <div class="card-bg" style="background-image: url('src/memoriadeunarbol.webp')"></div>
                 <div class="card-content">
                     <h3>Memoria de un árbol</h3>
@@ -51,7 +142,7 @@
                 </div>
             </div>
 
-            <div class="book-card" onclick="location.href='libro.html'" style="--order: 4">
+            <div class="book-card" onclick="location.href='blancacomolanieve.html'" style="--order: 4">
                 <div class="card-bg" style="background-image: url('src/blancacomolanieve.webp')"></div>
                 <div class="card-content">
                     <h3>Blanca como la nieve, roja como la sangre</h3>
@@ -60,7 +151,7 @@
                 </div>
             </div>
 
-            <div class="book-card" onclick="location.href='libro.html'" style="--order: 5">
+            <div class="book-card" onclick="location.href='unatartademanzana.html'" style="--order: 5">
                 <div class="card-bg" style="background-image: url('src/unatartademanzana.webp')"></div>
                 <div class="card-content">
                     <h3>Una tarta de manzana llena de esperanza</h3>
