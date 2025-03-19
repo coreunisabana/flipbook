@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Memoria de un árbol - CORE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memoria de un árbol - Flipbook</title>
     
     <!-- Enlace a estilos externos -->
     <link rel="stylesheet" href="styles.css">
@@ -12,8 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="turn.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <!-- Cargar el navbar -->
-    <script src="nav-loader.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Cargar componentes -->
+    <script src="components.js"></script>
     <style>
         body {
             margin: 0;
@@ -24,9 +25,18 @@
             -webkit-text-size-adjust: 100%;
         }
 
+        .book-title {
+            text-align: center;
+            color: #1a1a1a;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+
         #flipbook-container {
             width: 100%;
-            height: 100vh;
+            height: calc(100vh - 100px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -56,6 +66,7 @@
 </head>
 <body class="reader-mode">
     <main class="reader-container">
+        <h1 class="book-title">Memoria de un árbol</h1>
         <div id="flipbook-container">
             <div id="flipbook"></div>
         </div>
@@ -66,31 +77,6 @@
             <button id="nextPage" class="nav-btn">Siguiente →</button>
         </div>
     </main>
-
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Sobre el Proyecto</h3>
-                <p>Este Flipbook interactivo es una herramienta diseñada para los estudiantes de CORE V, permitiéndoles revivir y repasar las historias inspiradoras que conocieron durante CORE I. Una manera dinámica de mantener viva la esencia de estas narrativas transformadoras.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Enlaces Útiles</h3>
-                <ul>
-                    <li><a href="https://www.unisabana.edu.co/core" target="_blank">Programa CORE</a></li>
-                    <li><a href="https://www.unisabana.edu.co" target="_blank">Universidad de La Sabana</a></li>
-                    <li><a href="index.html">Volver al Catálogo</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Créditos</h3>
-                <p>Desarrollado con 💙 por Esteban</p>
-                <p>Proyecto CORE - Universidad de La Sabana</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 CORE - Universidad de La Sabana</p>
-        </div>
-    </footer>
 
     <script>
         // Configurar la ruta del PDF específico para este libro
