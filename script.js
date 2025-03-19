@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let totalPages = 0;
     let flipbook = $("#flipbook");
     let isInitialized = false;
+    let currentIsMobile = window.innerWidth <= 768;
 
     // Configurar el worker de PDF.js
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
@@ -146,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 overlay.remove();
 
                 // Inicializar turn.js con las dimensiones calculadas
-                flipbook.turn({
+                const options = {
                     width: isMobile ? pageWidth : pageWidth * 2,
                     height: pageHeight,
                     autoCenter: true,
@@ -167,7 +168,17 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         }
                     }
-                });
+                };
+
+                // Inicializar flipbook
+                flipbook.turn(options);
+
+                // Ajustar el tamaño del contenedor inicial
+                const container = document.getElementById('flipbook-container');
+                if (!isMobile) {
+                    container.style.width = (pageWidth * 2) + 'px';
+                    container.style.margin = '0 auto';
+                }
 
                 // Marcar como inicializado
                 isInitialized = true;
@@ -178,10 +189,45 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Mostrar flipbook con fade in
                 flipbook.css('visibility', 'visible').hide().fadeIn(1000);
                 updatePageNumber();
+
+                // Emitir evento de PDF cargado
+                document.dispatchEvent(new Event('pdfLoaded'));
             });
         } catch (error) {
             console.error("Error loading pages:", error);
             overlay.innerHTML = `<div class="error-message">Error al cargar las páginas: ${error.message}</div>`;
         }
     }
+
+    // Función para ajustar la visualización según el tamaño de la pantalla
+    function adjustDisplay() {
+        if (!isInitialized) return;
+
+        const newIsMobile = window.innerWidth <= 768;
+        if (newIsMobile !== currentIsMobile) {
+            currentIsMobile = newIsMobile;
+            const pageWidth = parseFloat($(".page").first().find("canvas").css("width"));
+            const pageHeight = parseFloat($(".page").first().find("canvas").css("height"));
+
+            // Actualizar opciones del flipbook
+            flipbook.turn('size', currentIsMobile ? pageWidth : pageWidth * 2, pageHeight);
+            flipbook.turn('display', currentIsMobile ? 'single' : 'double');
+            
+            // Ajustar el contenedor
+            const container = document.getElementById('flipbook-container');
+            if (currentIsMobile) {
+                container.style.width = '100%';
+            } else {
+                container.style.width = (pageWidth * 2) + 'px';
+                container.style.margin = '0 auto';
+            }
+        }
+    }
+
+    // Agregar listener para el cambio de tamaño de ventana
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(adjustDisplay, 100);
+    });
 });
