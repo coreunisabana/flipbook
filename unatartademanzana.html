@@ -104,24 +104,64 @@
             border-radius: 12px !important;
         }
 
-        .controls {
+        /* Estilos para el contenedor unificado de controles */
+        .controls-container {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1000;
-            width: auto;
-            display: none;
-            gap: 20px;
-            align-items: center;
-            justify-content: center;
-            background: rgba(233, 246, 255, 0.3);
-            padding: 12px 20px;
-            border-radius: 50px;
+            background: rgba(0, 29, 101, 0.1);
+            padding: 15px 20px;
+            border-radius: 20px;
             box-shadow: 0 8px 32px rgba(0, 29, 101, 0.1);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(233, 246, 255, 0.2);
+            border: 1px solid rgba(0, 29, 101, 0.2);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: auto;
+            min-width: 300px;
+            max-width: 500px;
+        }
+
+        .audio-player {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            transform: none;
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: none;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .controls {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            transform: none;
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: none;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
         }
 
         .controls.visible {
@@ -162,15 +202,19 @@
                 padding: 5px;
             }
 
-            .controls {
+            .controls-container {
                 width: 90%;
-                max-width: 400px;
-                padding: 10px 15px;
-                bottom: 15px;
-                gap: 15px;
-                background: rgba(233, 246, 255, 0.4);
-                display: flex;
-                justify-content: space-between;
+                padding: 12px 15px;
+                gap: 12px;
+                min-width: 0;
+            }
+
+            .audio-player {
+                gap: 10px;
+            }
+
+            .controls {
+                gap: 10px;
             }
 
             .nav-btn {
@@ -186,19 +230,102 @@
                 min-width: 80px;
             }
         }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 29, 101, 0.05);
+            padding: 4px;
+            border-radius: 25px;
+        }
+
+        .audio-controls button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            color: #001D65;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audio-controls button:hover {
+            background: rgba(0, 29, 101, 0.1);
+            color: #0030B3;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(0, 29, 101, 0.1);
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            min-width: 120px;
+        }
+
+        .progress-filled {
+            height: 100%;
+            background: #001D65;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .time-display {
+            font-size: 0.75rem;
+            color: #001D65;
+            font-weight: 500;
+            min-width: 70px;
+            text-align: right;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="reader-mode">
     <main class="reader-container">
         <h1 class="book-title">Una tarta de manzana</h1>
+
         <div id="flipbook-container">
             <div id="flipbook"></div>
         </div>
 
-        <div class="controls">
-            <button id="prevPage" class="nav-btn">← Anterior</button>
-            <span id="pageNumber" class="page-indicator">Página <span id="currentPage">1</span></span>
-            <button id="nextPage" class="nav-btn">Siguiente →</button>
+        <!-- Contenedor unificado de controles -->
+        <div class="controls-container">
+            <!-- Reproductor de Audio -->
+            <div class="audio-player">
+                <div class="audio-controls">
+                    <button id="rewindBtn" title="Retroceder">
+                        <i class="fa-solid fa-backward-step"></i>
+                    </button>
+                    <button id="playPauseBtn" title="Reproducir/Pausar">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button id="forwardBtn" title="Adelantar">
+                        <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                    <button id="muteBtn" title="Silenciar">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-filled"></div>
+                </div>
+                <div class="time-display">0:00 / 0:46</div>
+            </div>
+
+            <!-- Controles de navegación -->
+            <div class="controls visible">
+                <button id="prevPage" class="nav-btn">← Anterior</button>
+                <span id="pageNumber" class="page-indicator">Página <span id="currentPage">1</span></span>
+                <button id="nextPage" class="nav-btn">Siguiente →</button>
+            </div>
         </div>
     </main>
 
@@ -220,5 +347,18 @@
         });
     </script>
     <script src="script.js"></script>
+    <script src="audioPlayer.js"></script>
+    <script>
+        // Inicializar el reproductor de audio cuando se carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Crear una instancia del reproductor de audio con el archivo correspondiente
+            const audioPlayer = new AudioPlayer('audios/unatartademanzana.mp3');
+            
+            // Reproducir automáticamente cuando la página esté lista
+            setTimeout(() => {
+                audioPlayer.togglePlay();
+            }, 1000); // Pequeño retraso para asegurar que todo esté cargado
+        });
+    </script>
 </body>
 </html> 
