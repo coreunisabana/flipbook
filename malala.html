@@ -332,23 +332,21 @@
 
     <script>
         const pdfPath = 'libros/soymalala.pdf';
+        let audioPlayer;
 
         document.addEventListener('DOMContentLoaded', function() {
             const controls = document.querySelector('.controls');
             
             function showControls() {
                 controls.classList.add('visible');
+                // Iniciar el audio solo cuando el PDF esté cargado
+                if (!audioPlayer) {
+                    audioPlayer = new AudioPlayer('audios/malala.mp3');
+                    audioPlayer.togglePlay();
+                }
             }
 
             document.addEventListener('pdfLoaded', showControls);
-
-            // Inicializar el reproductor de audio
-            const audioPlayer = new AudioPlayer('audios/malala.mp3');
-            
-            // Reproducir automáticamente cuando la página esté lista
-            setTimeout(() => {
-                audioPlayer.togglePlay();
-            }, 1000);
         });
     </script>
     <script src="script.js"></script>
