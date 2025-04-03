@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 updatePageNumber();
 
                 // Emitir evento de PDF cargado
-                document.dispatchEvent(new Event('pdfLoaded'));
+                document.dispatchEvent(new CustomEvent('pdfLoaded'));
             });
         } catch (error) {
             console.error("Error loading pages:", error);

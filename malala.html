@@ -339,14 +339,25 @@
             
             function showControls() {
                 controls.classList.add('visible');
-                // Iniciar el audio solo cuando el PDF esté cargado
-                if (!audioPlayer) {
-                    audioPlayer = new AudioPlayer('audios/malala.mp3');
-                    audioPlayer.togglePlay();
-                }
             }
 
-            document.addEventListener('pdfLoaded', showControls);
+            // Inicializar el reproductor de audio
+            audioPlayer = new AudioPlayer('audios/malala.mp3');
+
+            // Escuchar el evento de PDF cargado
+            document.addEventListener('pdfLoaded', function() {
+                showControls();
+                // Intentar reproducir el audio cuando el PDF esté cargado
+                if (audioPlayer && audioPlayer.isReady) {
+                    audioPlayer.togglePlay();
+                } else {
+                    // Si el audio aún no está listo, esperar a que lo esté
+                    audioPlayer.audio.addEventListener('canplaythrough', function onCanPlay() {
+                        audioPlayer.togglePlay();
+                        audioPlayer.audio.removeEventListener('canplaythrough', onCanPlay);
+                    });
+                }
+            });
         });
     </script>
     <script src="script.js"></script>

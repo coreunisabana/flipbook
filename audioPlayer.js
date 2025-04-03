@@ -4,11 +4,18 @@ class AudioPlayer {
         this.audio = new Audio(audioPath);
         this.isPlaying = false;
         this.isMuted = false;
+        this.isReady = false;
         this.initializePlayer();
 
         // Manejar errores de carga del audio
         this.audio.addEventListener('error', (e) => {
             console.error('Error en la carga del audio:', e);
+        });
+
+        // Marcar como listo cuando el audio esté cargado
+        this.audio.addEventListener('canplaythrough', () => {
+            console.log('Audio listo para reproducir');
+            this.isReady = true;
         });
     }
 
@@ -76,6 +83,11 @@ class AudioPlayer {
 
     async togglePlay() {
         try {
+            if (!this.isReady) {
+                console.log('El audio aún no está listo para reproducir');
+                return;
+            }
+
             if (this.isPlaying) {
                 await this.audio.pause();
                 this.playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
