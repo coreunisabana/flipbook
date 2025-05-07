@@ -285,6 +285,49 @@
                 min-width: 80px;
             }
         }
+
+        .core-topics-unique {
+            margin: 30px auto 0 auto;
+            max-width: 420px;
+            display: flex;
+            flex-direction: row;
+            gap: 0;
+            align-items: stretch;
+        }
+        .core-bar-unique {
+            width: 8px;
+            min-width: 8px;
+            min-height: 320px;
+            height: auto;
+            border-radius: 5px;
+            background: linear-gradient(180deg, #0050F5 0%, #38bdf8 100%);
+            margin-right: 22px;
+        }
+        .core-list {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            width: 100%;
+        }
+        .core-content h2 {
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            line-height: 1.1;
+        }
+        .core-content p {
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 1rem;
+            margin: 0 0 0 0;
+            color: #222;
+            font-weight: 400;
+        }
+        @media (max-width: 600px) {
+            .core-topics-unique { max-width: 98vw; }
+            .core-content h2 { font-size: 1.3rem; }
+            .core-bar-unique { margin-right: 10px; }
+        }
     </style>
 </head>
 <body class="reader-mode">
@@ -293,6 +336,33 @@
         <div id="flipbook-container">
             <div id="flipbook"></div>
         </div>
+
+        <!-- Temas CORE -->
+        <section class="core-topics-unique">
+            <div class="core-bar-unique"></div>
+            <div class="core-list">
+                <div class="core-content">
+                    <h2>Persona</h2>
+                    <p>Antropología de la persona, características y manifestaciones de la persona.</p>
+                </div>
+                <div class="core-content">
+                    <h2>Libertad interior (o libertad del individuo)</h2>
+                    <p>Interior, constitutiva y del individuo.</p>
+                </div>
+                <div class="core-content">
+                    <h2>Identidad</h2>
+                    <p>Reconocer a la persona como un ser autobiográfico.</p>
+                </div>
+                <div class="core-content">
+                    <h2>Autoestima</h2>
+                    <p>¿Cómo la autoestima es un medio para el desarrollo personal?</p>
+                </div>
+                <div class="core-content">
+                    <h2>Familia y amistad</h2>
+                    <p>El papel de la familia y la amistad en la formación de la persona y su entorno social.</p>
+                </div>
+            </div>
+        </section>
 
         <!-- Contenedor unificado de controles -->
         <div class="controls-container">
