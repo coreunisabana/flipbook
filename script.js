@@ -170,28 +170,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 };
 
-                // Inicializar flipbook
-                flipbook.turn(options);
-
-                // Ajustar el tamaño del contenedor inicial
+                // Asegurar que las dimensiones sean consistentes
                 const container = document.getElementById('flipbook-container');
                 if (!isMobile) {
                     container.style.width = (pageWidth * 2) + 'px';
                     container.style.margin = '0 auto';
                 }
 
-                // Marcar como inicializado
-                isInitialized = true;
-
-                // Inicializar navegación después de que turn.js esté listo
-                initializeNavigation();
-
-                // Mostrar flipbook con fade in
-                flipbook.css('visibility', 'visible').hide().fadeIn(1000);
-                updatePageNumber();
-
-                // Emitir evento de PDF cargado
-                document.dispatchEvent(new CustomEvent('pdfLoaded'));
+                // Inicializar flipbook con un pequeño retraso para asegurar que las dimensiones se apliquen correctamente
+                setTimeout(() => {
+                    flipbook.turn(options);
+                    isInitialized = true;
+                    initializeNavigation();
+                    flipbook.css('visibility', 'visible').hide().fadeIn(1000);
+                    updatePageNumber();
+                    document.dispatchEvent(new CustomEvent('pdfLoaded'));
+                }, 100);
             });
         } catch (error) {
             console.error("Error loading pages:", error);
