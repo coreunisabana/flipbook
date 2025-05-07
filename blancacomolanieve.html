@@ -316,7 +316,9 @@
                 <div class="progress-bar">
                     <div class="progress-filled"></div>
                 </div>
-                <div class="time-display">0:00 / 0:00</div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                </div>
             </div>
 
             <!-- Controles de navegación -->
@@ -330,6 +332,7 @@
 
     <script>
         const pdfPath = 'libros/blancacomolanieve.pdf';
+        let audioPlayer;
 
         document.addEventListener('DOMContentLoaded', function() {
             const controls = document.querySelector('.controls');
@@ -338,15 +341,22 @@
                 controls.classList.add('visible');
             }
 
-            document.addEventListener('pdfLoaded', showControls);
-
             // Inicializar el reproductor de audio
-            const audioPlayer = new AudioPlayer('audios/blancacomolanieve.mp3');
-            
-            // Reproducir automáticamente cuando la página esté lista
-            setTimeout(() => {
-                audioPlayer.togglePlay();
-            }, 1000);
+            audioPlayer = new AudioPlayer('audios/blancacomolanieve.mp3');
+
+            // Escuchar el evento de PDF cargado
+            document.addEventListener('pdfLoaded', function() {
+                showControls();
+                // Intentar reproducir el audio cuando el PDF esté cargado
+                if (audioPlayer && audioPlayer.isReady) {
+                    audioPlayer.togglePlay();
+                } else {
+                    audioPlayer.audio.addEventListener('canplaythrough', function onCanPlay() {
+                        audioPlayer.togglePlay();
+                        audioPlayer.audio.removeEventListener('canplaythrough', onCanPlay);
+                    });
+                }
+            });
         });
     </script>
     <script src="script.js"></script>

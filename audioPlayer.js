@@ -16,6 +16,8 @@ class AudioPlayer {
         this.audio.addEventListener('canplaythrough', () => {
             console.log('Audio listo para reproducir');
             this.isReady = true;
+            this.updateDuration();
+            this.updateProgress();
         });
     }
 
@@ -42,12 +44,14 @@ class AudioPlayer {
         this.audio.addEventListener('loadedmetadata', () => {
             console.log('Audio metadata cargada');
             this.updateDuration();
+            this.updateProgress();
         });
         
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('ended', () => {
             this.isPlaying = false;
             this.playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            this.updateProgress();
         });
 
         // Event listeners para los controles
@@ -118,14 +122,19 @@ class AudioPlayer {
     }
 
     updateProgress() {
-        if (!this.audio.duration) return;
+        if (!this.audio.duration || isNaN(this.audio.duration)) return;
         const percent = (this.audio.currentTime / this.audio.duration) * 100;
         this.progressFilled.style.width = `${percent}%`;
         this.currentTimeEl.textContent = this.formatTime(this.audio.currentTime);
+        this.durationEl.textContent = this.formatTime(this.audio.duration);
     }
 
     updateDuration() {
-        this.durationEl.textContent = this.formatTime(this.audio.duration);
+        if (!this.audio.duration || isNaN(this.audio.duration)) {
+            this.durationEl.textContent = '0:00';
+        } else {
+            this.durationEl.textContent = this.formatTime(this.audio.duration);
+        }
     }
 
     formatTime(seconds) {
