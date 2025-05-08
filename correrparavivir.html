@@ -333,7 +333,7 @@
         .audio-tip {
             position: absolute;
             bottom: 100px;
-            left: 50%;
+            left: 28%;
             transform: translateX(-50%);
             background: rgba(0, 29, 101, 0.9);
             color: white;
@@ -343,7 +343,7 @@
             font-size: 14px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             z-index: 2000;
-            text-align: center;
+            text-align: left;
             animation: fadeIn 0.5s ease;
             display: none;
         }
@@ -351,7 +351,7 @@
         .audio-tip-arrow {
             position: absolute;
             bottom: -10px;
-            left: 50%;
+            left: 25%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
@@ -384,8 +384,8 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translate(-50%, 20px); }
-            to { opacity: 1; transform: translate(-50%, 0); }
+            from { opacity: 0; transform: translate(0, 20px); }
+            to { opacity: 1; transform: translate(0, 0); }
         }
     </style>
 </head>
@@ -506,7 +506,8 @@
                 const tip = document.createElement('div');
                 tip.className = 'audio-tip';
                 tip.innerHTML = `
-                    Para escuchar el audio mientras lees, pulsa el botón de reproducción
+                    Para escuchar el audio mientras lees, 
+                    pulsa el botón de reproducción
                     <div class="audio-tip-arrow"></div>
                     <button class="audio-tip-close">&times;</button>
                 `;
@@ -518,11 +519,23 @@
                 setTimeout(() => {
                     const playBtn = document.getElementById('playPauseBtn');
                     if (playBtn) {
+                        // Calcular la posición del botón
                         const btnRect = playBtn.getBoundingClientRect();
+                        const containerRect = document.querySelector('.controls-container').getBoundingClientRect();
+                        
+                        // Mostrar el mensaje
                         tip.style.display = 'block';
                         
-                        // Ajustar posición si es necesario según layout
+                        // Ajustar la posición para que apunte al botón y esté dentro de los límites
                         tip.style.bottom = '85px';
+                        tip.style.left = Math.max(20, Math.min(75, (btnRect.left - containerRect.left) + 20)) + 'px';
+                        tip.style.transform = 'none';
+                        
+                        // Ajustar la posición de la flecha
+                        const arrow = tip.querySelector('.audio-tip-arrow');
+                        if (arrow) {
+                            arrow.style.left = '30px';
+                        }
                     }
                 }, 1000);
                 
