@@ -3,6 +3,11 @@
         <img src="src/Unisabana.png" alt="Logo Unisabana" class="navbar-logo">
         <h1>Flipbook</h1>
     </a>
+    <button class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
     <nav class="nav-links">
         <a href="index.html">Inicio</a>
         <a href="https://www.unisabana.edu.co" target="_blank">Universidad</a>
@@ -106,4 +111,36 @@
             transform: rotate(-45deg);
         }
     }
-</style> 
+</style>
+
+<script>
+    // Inicialización inmediata del menú hamburguesa
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', function() {
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                console.log('Hamburger clicked, menu toggled');
+            });
+            
+            // Cerrar el menú al hacer click en un enlace
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+            
+            // Cerrar el menú al hacer click fuera de él
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.navbar') && !e.target.closest('.hamburger')) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
+        }
+    });
+</script> 
