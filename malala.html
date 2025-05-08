@@ -328,6 +328,65 @@
             .core-content h2 { font-size: 1.3rem; }
             .core-bar-unique { margin-right: 10px; }
         }
+
+        /* Estilo para el mensaje de audio iOS */
+        .audio-tip {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 29, 101, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            max-width: 280px;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+            display: none;
+        }
+
+        .audio-tip-arrow {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid rgba(0, 29, 101, 0.9);
+        }
+
+        .audio-tip-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: white;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .audio-tip-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
     </style>
 </head>
 <body class="reader-mode">
@@ -417,7 +476,17 @@
             // Escuchar el evento de PDF cargado
             document.addEventListener('pdfLoaded', function() {
                 showControls();
-                // Intentar reproducir el audio cuando el PDF esté cargado
+                
+                // En iOS, mostrar un mensaje personalizado
+                if (audioPlayer.isIOS) {
+                    console.log('iOS detectado: no se intentará reproducción automática');
+                    
+                    // Crear mensaje personalizado
+                    showAudioTip();
+                    return;
+                }
+                
+                // Intentar reproducir el audio cuando el PDF esté cargado (solo en no-iOS)
                 if (audioPlayer && audioPlayer.isReady) {
                     audioPlayer.togglePlay();
                 } else {
@@ -428,6 +497,48 @@
                     });
                 }
             });
+            
+            // Función para mostrar mensaje de ayuda para reproducir audio
+            function showAudioTip() {
+                // Comprobar si ya existe
+                if (document.querySelector('.audio-tip')) return;
+                
+                // Crear el mensaje
+                const tip = document.createElement('div');
+                tip.className = 'audio-tip';
+                tip.innerHTML = `
+                    Para escuchar el audio mientras lees, pulsa el botón de reproducción
+                    <div class="audio-tip-arrow"></div>
+                    <button class="audio-tip-close">&times;</button>
+                `;
+                
+                // Añadir al DOM
+                document.querySelector('.controls-container').appendChild(tip);
+                
+                // Posicionar el mensaje cerca del botón de reproducción
+                setTimeout(() => {
+                    const playBtn = document.getElementById('playPauseBtn');
+                    if (playBtn) {
+                        const btnRect = playBtn.getBoundingClientRect();
+                        tip.style.display = 'block';
+                        
+                        // Ajustar posición si es necesario según layout
+                        tip.style.bottom = '85px';
+                    }
+                }, 1000);
+                
+                // Evento para cerrar el mensaje
+                tip.querySelector('.audio-tip-close').addEventListener('click', function() {
+                    tip.remove();
+                });
+                
+                // Auto-cerrar después de 10 segundos
+                setTimeout(() => {
+                    if (tip.parentNode) {
+                        tip.remove();
+                    }
+                }, 10000);
+            }
         });
     </script>
     <script src="script.js"></script>

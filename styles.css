@@ -272,7 +272,7 @@ to {
 
 /* --- MAIN CONTENT --- */
 main {
-  margin-top: 160px;
+  margin-top: 80px;
   padding: 20px;
   flex: 1;
   width: 100%;
@@ -532,7 +532,7 @@ footer p {
   }
 
   main {
-      margin-top: 120px;
+      margin-top: 60px;
   }
 
   .footer-content {
@@ -566,7 +566,7 @@ footer p {
   }
 
   main {
-      margin-top: 100px;
+      margin-top: 50px;
   }
 }
 

@@ -5,11 +5,22 @@ class AudioPlayer {
         this.isPlaying = false;
         this.isMuted = false;
         this.isReady = false;
+        this.isIOS = this.detectIOS();
+        
+        // Configurar atributos adicionales para iOS
+        if (this.isIOS) {
+            console.log('Dispositivo iOS detectado, configurando para compatibilidad');
+            this.audio.preload = 'metadata';
+            this.audio.setAttribute('playsinline', '');
+            this.audio.setAttribute('webkit-playsinline', '');
+        }
+        
         this.initializePlayer();
 
         // Manejar errores de carga del audio
         this.audio.addEventListener('error', (e) => {
             console.error('Error en la carga del audio:', e);
+            console.error('Código de error:', e.target.error ? e.target.error.code : 'desconocido');
         });
 
         // Marcar como listo cuando el audio esté cargado
@@ -19,6 +30,13 @@ class AudioPlayer {
             this.updateDuration();
             this.updateProgress();
         });
+    }
+
+    // Detectar si estamos en iOS
+    detectIOS() {
+        const ua = navigator.userAgent;
+        return /iPad|iPhone|iPod/.test(ua) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     }
 
     initializePlayer() {
@@ -54,8 +72,20 @@ class AudioPlayer {
             this.updateProgress();
         });
 
-        // Event listeners para los controles
-        this.playPauseBtn.addEventListener('click', () => this.togglePlay());
+        // Event listeners para los controles con manejo mejorado para iOS
+        this.playPauseBtn.addEventListener('click', () => {
+            // En iOS, necesitamos cargar el audio antes de reproducirlo
+            if (this.isIOS && !this.isReady) {
+                console.log('Precargando audio para iOS...');
+                this.audio.load();
+                this.audio.addEventListener('canplaythrough', () => {
+                    this.togglePlay();
+                }, { once: true });
+            } else {
+                this.togglePlay();
+            }
+        });
+        
         this.rewindBtn.addEventListener('click', () => this.skip(-5));
         this.forwardBtn.addEventListener('click', () => this.skip(5));
         this.muteBtn.addEventListener('click', () => this.toggleMute());
@@ -87,7 +117,7 @@ class AudioPlayer {
 
     async togglePlay() {
         try {
-            if (!this.isReady) {
+            if (!this.isReady && !this.isIOS) {
                 console.log('El audio aún no está listo para reproducir');
                 return;
             }
@@ -95,17 +125,35 @@ class AudioPlayer {
             if (this.isPlaying) {
                 await this.audio.pause();
                 this.playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                this.isPlaying = false;
             } else {
-                const playPromise = this.audio.play();
-                if (playPromise !== undefined) {
-                    await playPromise;
+                try {
+                    const playPromise = this.audio.play();
+                    
+                    // En Safari/iOS, play() puede no devolver una promesa
+                    if (playPromise !== undefined) {
+                        await playPromise;
+                    }
+                    
                     this.playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    this.isPlaying = true;
+                } catch (playError) {
+                    console.error('Error al reproducir audio:', playError);
+                    
+                    // Si es un error de interacción en iOS/Safari
+                    if (this.isIOS) {
+                        console.log('Error de reproducción en iOS - se requiere interacción del usuario');
+                        alert('Para escuchar el audio, por favor toque el botón de reproducción.');
+                    }
+                    
+                    this.playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    this.isPlaying = false;
                 }
             }
-            this.isPlaying = !this.isPlaying;
+            
             console.log('Estado de reproducción:', this.isPlaying ? 'reproduciendo' : 'pausado');
         } catch (error) {
-            console.error('Error al reproducir/pausar:', error);
+            console.error('Error general al reproducir/pausar:', error);
         }
     }
 
